@@ -1,8 +1,8 @@
 // =======================================================================
-//  Copyleft physics-rs 2018-∞.
-//  Distributed under the terms of the Unlicense.
-//  (See accompanying file UNLICENSE or copy at
-//   https://unlicense.org/)
+//  Copyleft mathion 2018-∞.
+//  Distributed under the terms of the CC0 “No Rights Reserved”.
+//  (See accompanying file COPYING or copy at
+//   https://creativecommons.org/publicdomain/zero/1.0/)
 // =======================================================================
 
 //* Use from external library *//
@@ -10,6 +10,7 @@
 //* Use from local library *//
 use super::{Symbol, Monomial, Special};
 use utils::*;
+use sort::HeapSort;
 
 #[derive(PartialEq, Clone, Copy)]
 pub struct Polynomial {
@@ -121,6 +122,10 @@ impl Polynomial {
         self.denominator().len() == 1 && self.denominator().nth(0).to_f64() == 1.0
     }
 
+    pub fn square(&self) -> Polynomial {
+        self.clone() * self.clone()
+    }
+
     ////////////////////
     // --- Output --- //
     ////////////////////
@@ -187,20 +192,12 @@ impl Polynomial {
             }
         }
 
-        after_monomials.sort_unstable_by(|a, b| (a.exps() < b.exps() && a.number_of_variables() <= b.number_of_variables()).cmp(&false));
-
-        /*for _i in 0..after_monomials.len() {
-            for j in 0..after_monomials.len() - 1 {
-                if after_monomials[j].exps() < after_monomials[j + 1].exps() && after_monomials[j].number_of_variables() <= after_monomials[j + 1].number_of_variables() {
-                    after_monomials.swap(j, j + 1);
-                }
-            }
-        }*/
+        let mut heap_sort = HeapSort::new(after_monomials, |a: &Monomial, b: &Monomial| (a.exps() < b.exps() && a.number_of_variables() <= b.number_of_variables()).cmp(&false));
 
         if is_fraction {
-            Polynomial::fraction(after_monomials, self.denominator().monomials())
+            Polynomial::fraction(heap_sort.sort(), self.denominator().monomials())
         } else {
-            Polynomial::new(after_monomials)
+            Polynomial::new(heap_sort.sort())
         }
     }
 

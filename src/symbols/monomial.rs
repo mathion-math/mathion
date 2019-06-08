@@ -1,14 +1,15 @@
 // =======================================================================
-//  Copyleft physics-rs 2018-∞.
-//  Distributed under the terms of the Unlicense.
-//  (See accompanying file UNLICENSE or copy at
-//   https://unlicense.org/)
+//  Copyleft mathion 2018-∞.
+//  Distributed under the terms of the CC0 “No Rights Reserved”.
+//  (See accompanying file COPYING or copy at
+//   https://creativecommons.org/publicdomain/zero/1.0/)
 // =======================================================================
 
 //* Use from external library *//
 
 //* Use from local library *//
 use super::{Symbol, Polynomial};
+use sort::HeapSort;
 use utils::*;
 
 #[derive(PartialEq, Clone, Copy)]
@@ -169,17 +170,9 @@ impl Monomial {
             }
         }
 
-        after_symbols.sort_unstable_by_key(|k| k.name().as_bytes().clone()[0]);
+        let mut heap_sort = HeapSort::new(after_symbols, |a: &Symbol, b: &Symbol| (a.name().as_bytes().clone()[0] > b.name().as_bytes().clone()[0]).cmp(&false));
         
-        /*for _i in 0..after_symbols.len() {
-            for j in 0..after_symbols.len() - 1 {
-                if after_symbols[j].name().as_bytes().clone()[0] > after_symbols[j + 1].name().as_bytes().clone()[0] {
-                    after_symbols.swap(j, j + 1);
-                }
-            }
-        }*/
-
-        Monomial::new(after_symbols)
+        Monomial::new(heap_sort.sort())
     }
 
     /////////////////////

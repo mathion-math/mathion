@@ -5,11 +5,6 @@
 //   https://creativecommons.org/publicdomain/zero/1.0/)
 // =======================================================================
 
-pub mod symbol;
-pub mod monomial;
-pub mod polynomial;
+pub mod sort;
 
-//* Use from local library *//
-pub use symbol::{Symbol, SymbolType, Special, sin, cos, tan, exp};
-pub use monomial::Monomial;
-pub use polynomial::Polynomial;
+pub use crate::sort::sort::HeapSort;
