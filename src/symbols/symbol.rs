@@ -26,7 +26,8 @@ pub enum Special {
     Sin(Polynomial),
     Cos(Polynomial),
     Tan(Polynomial),
-    Exp(Polynomial)
+    Exp(Polynomial),
+    Log(Polynomial, f64)
 }
 
 pub fn sin(input: Polynomial, exp: f64) -> Symbol {
@@ -72,6 +73,9 @@ impl Special {
             Special::Exp(f_x) => {
                 *f_x
             },
+            Special::Log(f_x, _base) => {
+                *f_x
+            },
             _ => Symbol::from_f64(0.0).to_polynomial()
         }
     }
@@ -91,7 +95,14 @@ impl Special {
                 } else {
                     f_x.eval_multiple(inputs, false).to_f64()
                 }
-            }
+            },
+            Special::Log(f_x, _base) => {
+                if f_x.is_real() { 
+                    f_x.to_f64()
+                } else {
+                    f_x.eval_multiple(inputs, false).to_f64()
+                }
+            },
             _ => 0.0
         };
 
@@ -108,6 +119,9 @@ impl Special {
             Special::Exp(_) => {
                 input.exp()
             },
+            Special::Log(_, base) => {
+                input.log2() / base.log2()
+            }
             _ => { 0.0 }
         }
     }
