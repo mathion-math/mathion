@@ -166,7 +166,11 @@ impl Monomial {
                 }
             }
             if !is_found {
-                after_symbols.push(x);
+                if x.is_real() {
+                    after_symbols.push(Symbol::from_f64(x.to_f64()));
+                } else {
+                    after_symbols.push(x);
+                }
             }
         }
 
