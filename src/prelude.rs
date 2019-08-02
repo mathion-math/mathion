@@ -9,3 +9,6 @@ pub use symbols::*;
 pub use functions::*;
 pub use numerical::*;
 pub use matrix::*;
+
+#[macro_use]
+pub use macros;
