@@ -10,6 +10,6 @@ pub mod monomial;
 pub mod polynomial;
 
 //* Use from local library *//
-pub use symbol::{Symbol, SymbolType, Special, sin, cos, tan, exp};
+pub use symbol::{Symbol, SymbolType, Special, sin, cos, tan, exp, log};
 pub use monomial::Monomial;
 pub use polynomial::Polynomial;
