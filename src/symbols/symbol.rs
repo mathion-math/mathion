@@ -54,6 +54,12 @@ pub fn exp(input: Polynomial, exp: f64) -> Symbol {
     Symbol::new(name, SymbolType::Special(Special::Exp(input)), exp)
 }
 
+pub fn log(input: Polynomial, base: f64, exp: f64) -> Symbol {
+    let variables = input.variables_output();
+    let name = string_to_static_str(format!("log_{}({})", base, variables));
+    Symbol::new(name, SymbolType::Special(Special::Log(input, base)), exp)
+}
+
 impl Special {
     pub fn value(&self, input: f64) -> f64 {
         let polynomial = (&self).polynomial();
