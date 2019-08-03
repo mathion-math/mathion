@@ -66,7 +66,7 @@ pub fn solve_ode4(f_x: Vec<Polynomial>, t_name: &'static str, initial: Variables
 
             for i in 0..vars_vec.len() {
                 if vars_vec[i].1 < 0.0000005 {
-                    vars_vec[i].1 = 0;
+                    vars_vec[i].1 = 0.0;
                 }
             }
 
