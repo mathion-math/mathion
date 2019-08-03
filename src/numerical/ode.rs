@@ -64,9 +64,16 @@ pub fn solve_ode4(f_x: Vec<Polynomial>, t_name: &'static str, initial: Variables
                 vars_vec[j].1 += (f_1[j] + (2.0 * f_2[j]) + (2.0 * f_3[j]) + f_4[j]) / 6.0;
             }
 
+            for i in 0..vars_vec.len() {
+                if vars_vec[i].1 < 0.0000005 {
+                    vars_vec[i].1 = 0;
+                }
+            }
+
             vars = Variables::new(vars_vec.clone());
         }
         t = interval.0 + (i as f64) * h;
+
         point.push(vars.with_one(t_name, t));
     }
     Ok(point)
